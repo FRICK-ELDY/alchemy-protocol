@@ -39,7 +39,7 @@ git submodule add https://github.com/FRICK-ELDY/alchemy-protocol.git vendor/alch
   app: false}
 ```
 
-`sparse: "proto"` のとき、Mix が展開するディレクトリの **ルートがすでに `.proto` ファイル群の親**になります（例: `deps/alchemy_protocol_files/render_frame.proto`）。`Mix.Tasks.Alchemy.gen.proto` 等ではこのパスを **`PROTO_ROOT` としてそのまま**使い、末尾に **`/proto` を二重に付けない**でください。
+`sparse: "proto"` のとき、Mix が展開するディレクトリの **ルートがすでに `.proto` ファイル群の親**になります（例: `deps/alchemy_protocol_files/render_frame.proto`）。`mix alchemy.gen.proto`（実装: `Mix.Tasks.Alchemy.Gen.Proto`）では、このパスを **`PROTO_ROOT` としてそのまま**使い、末尾に **`/proto` を二重に付けない**でください。
 
 ### Rust（`prost-build`）
 
