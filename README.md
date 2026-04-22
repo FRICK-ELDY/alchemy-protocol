@@ -19,12 +19,14 @@
 
 ### 方式 A: Git submodule（例）
 
+ディレクトリ名は任意ですが、[alchemy-engine](https://github.com/FRICK-ELDY/alchemy-engine) では **`3rdparty/alchemy-protocol`** を既定としています。
+
 ```bash
-git submodule add https://github.com/FRICK-ELDY/alchemy-protocol.git vendor/alchemy-protocol
-# .proto の実体: vendor/alchemy-protocol/proto/
+git submodule add https://github.com/FRICK-ELDY/alchemy-protocol.git 3rdparty/alchemy-protocol
+# .proto の実体: 3rdparty/alchemy-protocol/proto/
 ```
 
-この場合の **`PROTO_ROOT`**（環境変数またはビルド設定）はリポジトリルートからの **`vendor/alchemy-protocol/proto`** です。
+この場合の **`PROTO_ROOT`**（環境変数またはビルド設定）はリポジトリルートからの **`3rdparty/alchemy-protocol/proto`** です。
 
 ### 方式 B: Mix の git 依存 + sparse（例）
 
