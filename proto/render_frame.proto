@@ -8,6 +8,7 @@ import "render_frame/mesh.proto";
 import "render_frame/camera.proto";
 import "render_frame/ui.proto";
 import "render_frame/draw_commands.proto";
+import "render_frame/audio_frame.proto";
 
 // レガシー: ETF を bytes で包んでいた形式（クライアントは後方互換で解釈）
 message RenderFrameEnvelope {
@@ -21,4 +22,5 @@ message RenderFrame {
   UiCanvas ui = 3;
   repeated MeshDef mesh_definitions = 4;
   optional CursorGrabKind cursor_grab = 5;
+  optional AudioFrame audio_frame = 6;
 }
