@@ -98,9 +98,9 @@ message UiSpacing {
 }
 
 message UiWorldText {
-  float world_x = 1;
-  float world_y = 2;
-  float world_z = 3;
+  double world_x = 1;
+  double world_y = 2;
+  double world_z = 3;
   string text = 4;
   repeated float color = 5;
   float lifetime = 6;

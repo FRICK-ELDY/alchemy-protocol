@@ -24,65 +24,65 @@ message DrawCommand {
 }
 
 message PlayerSprite {
-  float x = 1;
-  float y = 2;
+  double x = 1;
+  double y = 2;
   uint32 frame = 3;
 }
 
 message SpriteRaw {
-  float x = 1;
-  float y = 2;
-  float width = 3;
-  float height = 4;
+  double x = 1;
+  double y = 2;
+  double width = 3;
+  double height = 4;
   repeated float uv_offset = 5;
   repeated float uv_size = 6;
   repeated float color_tint = 7;
 }
 
 message ParticleCmd {
-  float x = 1;
-  float y = 2;
+  double x = 1;
+  double y = 2;
   float r = 3;
   float g = 4;
   float b = 5;
   float alpha = 6;
-  float size = 7;
+  double size = 7;
 }
 
 message ItemCmd {
-  float x = 1;
-  float y = 2;
+  double x = 1;
+  double y = 2;
   uint32 kind = 3;
 }
 
 message ObstacleCmd {
-  float x = 1;
-  float y = 2;
-  float radius = 3;
+  double x = 1;
+  double y = 2;
+  double radius = 3;
   uint32 kind = 4;
 }
 
 message Box3dCmd {
-  float x = 1;
-  float y = 2;
-  float z = 3;
-  float half_w = 4;
-  float half_h = 5;
-  float half_d = 6;
+  double x = 1;
+  double y = 2;
+  double z = 3;
+  double half_w = 4;
+  double half_h = 5;
+  double half_d = 6;
   repeated float color = 7;
 }
 
 // 単位球メッシュ（半径 0.5・中心原点、MeshDef 名 unit_sphere）を半径 radius でワールド配置する。
 message Sphere3dCmd {
-  float x = 1;
-  float y = 2;
-  float z = 3;
-  float radius = 4;
+  double x = 1;
+  double y = 2;
+  double z = 3;
+  double radius = 4;
   repeated float color = 5;
 }
 
 message GridPlaneCmd {
-  float size = 1;
+  double size = 1;
   uint32 divisions = 2;
   repeated float color = 3;
 }
