@@ -3,7 +3,7 @@ syntax = "proto3";
 package alchemy.render;
 
 message MeshVertex {
-  repeated float position = 1;
+  repeated double position = 1;
   repeated float color = 2;
 }
 

@@ -2,6 +2,15 @@
 
 本ファイルに、スキーマの**破壊的変更**と**リリース単位のまとめ**を記載します。
 
+## [1.0.0] - 2026-10-10
+
+### Changed
+
+- `RenderFrame` の空間量を proto3 `float`（binary32）から `double`（IEEE 754 binary64）に変更した。対象は描画コマンドの位置とワールド寸法、カメラの offset / eye / target / up / near / far、メッシュ頂点の `position`、UI の `world_x` / `world_y` / `world_z`。フィールド番号は維持する。
+- 色、UV、アルファ、`fov_deg`、UI のピクセル量は `float` のまま。
+
+旧 `v0.1.x` のクライアントとはワイヤ非互換である。
+
 ## [0.1.1] - 2026-04-22
 
 ### Changed
