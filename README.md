@@ -13,43 +13,41 @@
 - **破壊的変更**（フィールド削除・型変更・番号の再利用など）は `MAJOR` を上げ、`CHANGELOG.md` に必ず記載してください。
 - **同一 MAJOR 内**の既定の後方互換変更は、proto3 における **フィールド追加のみ** とします。`reserved` の運用は `CONTRIBUTING.md` を参照してください。
 
-## alchemy-engine からの取り込み
+## 消費者側の取り込み（推奨）
 
-エンジン側では **タグまたはコミット SHA で rev を固定**し、意図しない追従を防いでください。
+実行リポジトリ（[alchemy-world-server](https://github.com/FRICK-ELDY/alchemy-world-server) 等）は **生成物（Elixir `*.pb.ex` / Rust の生成コード）をコミット**し、日常ビルドでは本リポのツリーを必須にしません。
 
-### 方式 A: Git submodule（例）
+追従するときは本リポの **タグを固定**し、`PROTO_ROOT` に本リポの `proto/` を明示して再生成し、**Elixir と Rust の生成物を同一 PR**で更新します。
 
-ディレクトリ名は任意ですが、[alchemy-engine](https://github.com/FRICK-ELDY/alchemy-engine) では **`3rdparty/alchemy-protocol`** を既定としています。
+### スーパープロジェクト（alchemy-engine）での配置
+
+[alchemy-engine](https://github.com/FRICK-ELDY/alchemy-engine) では閲覧・再生成用に submodule パス **`protocol/`** でピンします（ビルド契約ではない）。推奨 SHA はエンジン側 `.workspace/0_docs/protocol-lock.md` を参照。
 
 ```bash
-git submodule add https://github.com/FRICK-ELDY/alchemy-protocol.git 3rdparty/alchemy-protocol
-# .proto の実体: 3rdparty/alchemy-protocol/proto/
+# 例: 親一式を clone している場合の再生成
+export PROTO_ROOT="$PWD/protocol/proto"   # Windows は set PROTO_ROOT=...
+cd world-server
+mix alchemy.gen.proto
 ```
 
-この場合の **`PROTO_ROOT`**（環境変数またはビルド設定）はリポジトリルートからの **`3rdparty/alchemy-protocol/proto`** です。
+コードに `../protocol` を焼き込まないこと。必ず **環境変数等で明示**する。
 
-### 方式 B: Mix の git 依存 + sparse（例）
+### 旧方式（廃止予定）
 
-ルート `mix.exs` の `deps` に次のような依存を追加します（依存キー名はプロジェクトで衝突しないものに変更してください）。
+以前のモノレポ／world-server 内 **`3rdparty/alchemy-protocol`** は過渡的なコピーです。`proto/` 内容は本リポのタグ（例: `v0.1.2`）と揃えています。段階的に削除し、上記の生成物コミット運用へ移行します。
+
+### Mix git 依存 + sparse（任意）
 
 ```elixir
 {:alchemy_protocol_files,
   git: "https://github.com/FRICK-ELDY/alchemy-protocol.git",
   sparse: "proto",
-  ref: "v0.1.0",
+  ref: "v0.1.2",
   compile: false,
   app: false}
 ```
 
-`sparse: "proto"` のとき、Mix が展開するディレクトリの **ルートがすでに `.proto` ファイル群の親**になります（例: `deps/alchemy_protocol_files/render_frame.proto`）。`mix alchemy.gen.proto`（実装: `Mix.Tasks.Alchemy.Gen.Proto`）では、このパスを **`PROTO_ROOT` としてそのまま**使い、末尾に **`/proto` を二重に付けない**でください。
-
-### Rust（`prost-build`）
-
-`build.rs` では **`PROTO_ROOT` 環境変数を最優先**し、未設定時のみ `CARGO_MANIFEST_DIR` からの相対パスにフォールバックする実装を推奨します（クレートの深さが異なるため、相対パスのみのハードコードは事故りやすいです）。
-
-## プロトを上げる PR の方針（alchemy-engine）
-
-「本リポの `vX` に追従する」変更は、**Elixir の生成物（`mix alchemy.gen.proto`）と Rust の生成・契約テスト**を **同一 PR** で更新する運用を推奨します。
+`sparse: "proto"` のとき、展開先のルートが `.proto` の親になります。`PROTO_ROOT` にそのパスをそのまま渡し、末尾に `/proto` を二重に付けないでください。
 
 ## ローカル検証
 
